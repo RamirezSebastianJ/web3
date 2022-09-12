@@ -21,8 +21,8 @@ export class AppComponent {
         clientId,
         chainConfig: {
           chainNamespace: CHAIN_NAMESPACES.EIP155,
-          chainId: "80001",
-          rpcTarget: "https://rpc-mumbai.maticvigil.com/", // This is the public RPC we have added, please pass on your own endpoint while creating an app
+          chainId: "0x89",
+          rpcTarget: "https://rpc-mainnet.matic.network", // This is the public RPC we have added, please pass on your own endpoint while creating an app
         },
         uiConfig: {
           theme: "dark",
