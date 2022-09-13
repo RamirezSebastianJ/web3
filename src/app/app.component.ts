@@ -3,6 +3,8 @@ import { Web3Auth } from "@web3auth/web3auth";
 import { WALLET_ADAPTERS, CHAIN_NAMESPACES, SafeEventEmitterProvider } from "@web3auth/base";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import RPC from "./ethersRPC";
+import { ethers } from "ethers";
+import { marketplaceAddress } from "config";
 const clientId = "BPKMmWlpoRv4hu6Lx-PAiviW7KQKeVOz7BoFBAzWPSNRFE0EGtZL0e7YdOID-fzA9clnvS0Bxtk9F32eTJo6ufk"; // get from https://dashboard.web3auth.io
 
 @Component({
@@ -10,11 +12,29 @@ const clientId = "BPKMmWlpoRv4hu6Lx-PAiviW7KQKeVOz7BoFBAzWPSNRFE0EGtZL0e7YdOID-f
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
+
+
 export class AppComponent {
     title = "angular-app";
     web3auth: Web3Auth | null = null;
     provider: SafeEventEmitterProvider | null = null;
     isModalLoaded = false;
+
+    
+ ipfsClient = require('ipfs-http-client');
+
+ projectId = '2EBPJP8Hry8AljsjbbcW4axwfSn';
+ projectSecret = '665e6b8eeb7425bda1c6a11aa9e84e92';
+ auth =
+ 'Basic ' + Buffer.from(this.projectId + ':' + this.projectSecret).toString('base64');
+ client = this.ipfsClient.create({
+  url: 'https://infura-ipfs.io:5001/api/v0',
+  headers: {
+      authorization: this.auth,
+  },
+});
+
+ 
 
     async ngOnInit() {
       this.web3auth = new Web3Auth({
@@ -144,6 +164,37 @@ export class AppComponent {
       const privateKey = await rpc.getPrivateKey();
       console.log(privateKey);
     };
+
+
+    
+    uploadToIPFS = async () => {
+
+      const data = JSON.stringify({
+        name: 'Juanse', description: 'description', image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+      })
+
+      try {
+        const added = await this.client.add(data)
+        const url = `https://stoyco.infura-ipfs.io/ipfs/${added.path}`
+        return url
+      } catch (error) {
+        console.log('Error uploading file: ', error)
+      }
+
+    }
+
+    connectContract = async () => {
+
+      const url = await this.uploadToIPFS()
+    
+
+      // const provider = new ethers.providers.Web3Provider(this.provider)
+      // const signer = provider.getSigner()
+      
+      // const price = ethers.utils.parseUnits('5', 'ether')
+      // const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
+      // this.provider?.on
+    }
 
     logout = async () => {
       if (!this.web3auth) {
