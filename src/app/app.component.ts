@@ -7,10 +7,10 @@ import {
 } from '@web3auth/base';
 import { OpenloginAdapter } from '@web3auth/openlogin-adapter';
 import RPC from './ethersRPC';
+import { StoycoService } from 'src/core/services/stoyco.service';
 
 const clientId =
   'BPKMmWlpoRv4hu6Lx-PAiviW7KQKeVOz7BoFBAzWPSNRFE0EGtZL0e7YdOID-fzA9clnvS0Bxtk9F32eTJo6ufk';
-
 
 @Component({
   selector: 'app-root',
@@ -23,13 +23,13 @@ export class AppComponent {
   provider: SafeEventEmitterProvider | null = null;
   isModalLoaded = false;
 
-
   projectId = '2EBPJP8Hry8AljsjbbcW4axwfSn';
   projectSecret = '665e6b8eeb7425bda1c6a11aa9e84e92';
   auth =
     'Basic ' +
     Buffer.from(this.projectId + ':' + this.projectSecret).toString('base64');
 
+  constructor(stoycoService: StoycoService) {}
 
   async ngOnInit() {
     this.web3auth = new Web3Auth({
