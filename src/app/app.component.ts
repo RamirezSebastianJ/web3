@@ -167,34 +167,6 @@ export class AppComponent {
 
 
     
-    uploadToIPFS = async () => {
-
-      const data = JSON.stringify({
-        name: 'Juanse', description: 'description', image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
-      })
-
-      try {
-        const added = await this.client.add(data)
-        const url = `https://stoyco.infura-ipfs.io/ipfs/${added.path}`
-        return url
-      } catch (error) {
-        console.log('Error uploading file: ', error)
-      }
-
-    }
-
-    connectContract = async () => {
-
-      const url = await this.uploadToIPFS()
-    
-
-      // const provider = new ethers.providers.Web3Provider(this.provider)
-      // const signer = provider.getSigner()
-      
-      // const price = ethers.utils.parseUnits('5', 'ether')
-      // const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
-      // this.provider?.on
-    }
 
     logout = async () => {
       if (!this.web3auth) {
